@@ -51,17 +51,23 @@ int main(int argc, char *argv[]) {
   /* 5. Enregistrement auprÃ¨s du systÃ¨me. */
 	if((listen(secoute,128))==-1){perror("erreur de demande de connexion");exit(1);}
 	 
-	fd_set fds;
-	FD_ZERO(&fds);
-	FD_SET(secoute, &fds);
+	fd_set fds, fds_tmp;
+	FD_ZERO(&fds_master);
+	FD_SET(secoute, &fds_master);
 	max_fd = secoute;
 
 	while (1) {
+		fds_tmp =fds_master;
 	    printf("Serveur en attente de nouveaux clients ou messages.\n");
-		select(max_fd -1, fd_set, NULL, NULL);
+		select(max_fd -1, &fds, NULL, NULL);
 		if((sservice = accept(secoute,(struct sock_addr *) &cadresse, &caddrlen))==-1)
 
     /* 6. Si on a reÃ§u une demande sur la socket d'Ã©coute... */
+	if(FD_ISSET(secoute, &fds_tmp)){
+		(sservice = accept(secoute,NULL,NULL))==-1){}
+	}
+	FD_SET(sservice, &fds_master);
+	if(sservice > max_fd) max_fd = sservice;
 
     /* 7. Si on a reÃ§u des donnÃ©es sur une socket de service... */
 
