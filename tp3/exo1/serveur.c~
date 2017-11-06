@@ -16,7 +16,7 @@
 
 #define PORT_SERVEUR 5015           /* NumÃ©ro de port pour le serveur */
 #define MAX_CLIENTS   128           /* Nombre maximum de clients */
-#define BUFFER_SIZE  1024           /* Taille maximum des messages */
+#define BUFFER_SIZE  1024           /* Taille maximum des messages */	
 
 int main(int argc, char *argv[]) {
 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 
   /* 1. On dÃ©route les signaux */
 	
-	signal
+	signal(SIGCHLD,handler);
   /* 2. On crÃ©e la socket d'Ã©coute. */
 	if(secoute = soket(AF_INET, SOCK_STREAM,0) == -1){
 	perror("Erreur ouverture des sokets");
@@ -36,13 +36,25 @@ int main(int argc, char *argv[]) {
 
 
   /* 3. On prÃ©pare l'adresse du serveur. */
+	struct sockaddr_in adresse = {0};
+	adresse.sin_family = AF_INET;
+	adresse.sin_addr.s_addr = htonl(INADDR_ANY);
+	adresse.sin_port = htons(atoi(argv[1]));	
+
 
   /* 4. On attache la socket a l'adresse du serveur. */
-
+	if(bind(secout,(struct sockaddr *) &adresse, sizeof(adresse))==-1){
+	perror("erreur attachement");
+	exit(0);
+	}	
+	
   /* 5. Enregistrement auprÃ¨s du systÃ¨me. */
+	if((listen(secoute,128))==-1){perror("erreur de demande de connexion");exit(1);}
+	  while (1) {
+	    printf("Serveur en attente de nouveaux clients ou messages.\n");
+		if(s = select(BUFFER_SIZE,
+		if((sservice = accept(secoute,(struct sock_addr *) &cadresse, &caddrlen))==-1)
 
-  while (1) {
-    printf("Serveur en attente de nouveaux clients ou messages.\n");
 
     /* 6. Si on a reÃ§u une demande sur la socket d'Ã©coute... */
 
