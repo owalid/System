@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+void echange1(float a, float b){
+	float temp = a;
+	a = b;
+	b = temp;
+}
+
+void echange2(float *pe, float *ppi){
+	float temp = *pe;
+	*pe = *ppi;
+	*ppi = *pe;
+}
+
+int main(){
+	float pi=2.71828,e=3.14159;
+	float *pe=&e;
+	float *ppi=&pi;
+	printf("Avant echange : pi = %f, e= %f.\n", pi,e);
+	echange2(*ppi,*pe);
+	printf("Apres echange: pi = %f, e= %f.\n",pi,e);
+return 0;
+}

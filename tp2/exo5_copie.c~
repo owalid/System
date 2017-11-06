@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
+
+
+int main(int argc, char **argv)
+	{ 
+	int p[2];
+	char c = '\0';
+	/* Descripteurs du tube p. */
+	pipe(p);
+	/* Création du tube p. */
+	if (fork() != 0) /* Code spécifique au père. */
+	{ 
+		float aleatoire;
+		close(p[1]);
+		/* Clôture du tube p en écriture. */
+		srandom(time(NULL));
+		while (1)
+		{ 
+			printf("Père en attente.\n");
+			/* Attente passive. */
+			read(p[0], &c, 1);
+			/* Lecture d'un octet sur p.*/
+			aleatoire = ((float)random()/RAND_MAX); /* Calcul du nombre. */
+			printf("Envoi de : %f \n", aleatoire);
+	}
+		close(p[0]);
+		/* Clôture du tube p en lecture. */
+		return 0;
+	}
+	else
+	/* Code du fils. */
+	{
+		close(p[0]);
+		/* Fermeture du tube p en lecture. */
+		while (1)
+		{ 
+			write(p[1], &c, 1);
+			/* Envoi d'une requête. */
+			sleep(1);
+	}
+	close(p[1]);
+	/* Fermeture du tube p en écriture. */
+	return 0;
+}
