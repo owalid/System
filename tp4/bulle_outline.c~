@@ -15,7 +15,7 @@ void * bulle(void * arg) {
 	int i;
 	while(!tab_ordre){
 		tab_ordre = true;
-		for (i = 0; i< SIZE-1; i++){
+		for (i = 0; i<= SIZE-1; i++){
 			if(tab[i+1] < tab[i]){	
 				temp = tab[i+1];
 				tab[i+1] = tab[i];
@@ -33,7 +33,7 @@ void * plomb(void * arg) {
 	int j;
 	while(!tab_ordre){
 		tab_ordre = true;
-		for (j =  SIZE-1; j> SIZE; j--){
+		for (j =  SIZE-1; j>= SIZE; j--){
 			if(tab[j-1]> tab[j]){	
 				temp = tab[j-1];
 				tab[j-1] = tab[j];
@@ -47,7 +47,7 @@ void * plomb(void * arg) {
 
 void shuffle() {
   int i, j, temp;
-  for (i = SIZE - 1; i > 0; i--) {
+  for (i = SIZE - 1; i >= 0; i--) {
     j = random() % (i + 1);
     temp = tab[i];
     tab[i] = tab[j];
